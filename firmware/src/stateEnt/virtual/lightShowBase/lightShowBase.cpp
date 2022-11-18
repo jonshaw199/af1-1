@@ -226,7 +226,7 @@ void LightShowBase::loop()
       Serial.println("Local IR sensor motion begin");
       AF1Msg msg(TYPE_MOTION);
       msg.json()["motion"] = true;
-      msg.setRecipients({255});
+      msg.setRecipients({"255"});
       pushOutbox(msg);
     }
   }
@@ -238,7 +238,7 @@ void LightShowBase::loop()
       Serial.println("Local IR sensor motion end");
       AF1Msg msg(TYPE_MOTION);
       msg.json()["motion"] = false;
-      msg.setRecipients({255});
+      msg.setRecipients({"255"});
       pushOutbox(msg);
     }
   }
@@ -252,7 +252,7 @@ bool LightShowBase::doScanForPeersESPNow()
 
 void LightShowBase::onConnectWSServer()
 {
-  sendMsgInfo({255});
+  sendMsgInfo({"255"});
 }
 
 AF1JsonDoc LightShowBase::getInfo()

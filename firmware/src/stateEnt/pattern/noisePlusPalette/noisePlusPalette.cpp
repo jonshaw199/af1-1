@@ -10,8 +10,8 @@
 #define COLOR_ORDER GRB
 
 // Params for width and height
-const uint8_t kMatrixWidth = CNT;
-const uint8_t kMatrixHeight = 1;
+const int kMatrixWidth = CNT;
+const int kMatrixHeight = 1;
 
 // Param for different pixel layouts
 const bool kMatrixSerpentineLayout = true;
@@ -426,7 +426,7 @@ uint16_t NoisePlusPalette::XY(uint8_t x, uint8_t y)
     if (y & 0x01)
     {
       // Odd rows run backwards
-      uint8_t reverseX = (kMatrixWidth - 1) - x;
+      int reverseX = (kMatrixWidth - 1) - x;
       i = (y * kMatrixWidth) + reverseX;
     }
     else
