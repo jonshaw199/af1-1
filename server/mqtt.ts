@@ -1,4 +1,6 @@
-export type SubscriberId = number | string;
+import { Types } from "mongoose";
+
+export type SubscriberId = number | string | Types.ObjectId;
 const WILDCARD = "*";
 const WILDCARD_MULTI = "#";
 const SUBTOPIC_SEPARATOR = "/";

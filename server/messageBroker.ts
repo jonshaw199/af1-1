@@ -2,6 +2,7 @@ import { Instance } from "express-ws";
 import { WebSocket } from "./types";
 
 import MQTT, { SubscriberId } from "./mqtt";
+import { Types } from "mongoose";
 
 export default class MessageBroker {
   private static expressWsInstance: Instance;
@@ -26,7 +27,7 @@ export default class MessageBroker {
     MQTT.clearTopicTree();
   }
 
-  public static getClients(orgId: string, topic: string) {
+  public static getClients(orgId: Types.ObjectId, topic: string) {
     const subscribers = this.getSubscribers(topic);
     return Array.from(this.expressWsInstance.getWss().clients).filter(
       (w: WebSocket) => w.orgId == orgId && subscribers.has(w.deviceId)

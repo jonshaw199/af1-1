@@ -198,7 +198,6 @@ void LightShowBase::loop()
     body["type"] = TYPE_CHANGE_STATE;
     lastState = lastState == STATE_HOME ? STATE_PATTERN_NOISE : STATE_HOME;
     body["state"] = lastState;
-    body["orgId"] = ORG_ID;
     httpPost(REMOTE_URL, body);
   }
   /*else if (M5.BtnB.wasReleased())

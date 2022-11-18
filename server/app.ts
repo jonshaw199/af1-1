@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import express_ws, { Application } from "express-ws";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { WebSocket as WS } from "ws";
 import cors from "cors";
 
@@ -13,12 +13,12 @@ dotenv.config();
 
 import lightsRouter from "./routes/lights";
 import usersRouter from "./routes/user";
-import Connections from "./connections";
 import { Request, WebSocket } from "./types";
 import orgRouter from "./routes/org";
 import messageRouter from "./routes/message";
+import MessageBroker from "./messageBroker";
 
-Connections.init(expressWs);
+MessageBroker.init(expressWs);
 
 mongoose.connect(process.env.MONGODB_URI, null, (err) => {
   console.log(err || `Connected to MongoDB.`);
@@ -54,8 +54,8 @@ app.use(function (req, res, next) {
 app.ws("*", (w: WS, req: Request, next) => {
   const ws = w as WebSocket;
   ws.path = req.path;
-  ws.orgId = req.query.orgId?.toString();
-  ws.deviceId = req.query.deviceId?.toString();
+  ws.orgId = new Types.ObjectId("123ABC"); // req.query.orgId?.toString(); need to get from DB
+  ws.deviceId = new Types.ObjectId(req.query.deviceId?.toString());
   next();
 });
 

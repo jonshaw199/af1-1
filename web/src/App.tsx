@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { styled, ThemeProvider } from "@mui/material/styles";
-import { Types } from "mongoose";
 
 import "./App.css";
 import Nav from "./components/Nav";
@@ -49,7 +48,6 @@ function LoggedIn() {
   useAF1Websocket({
     url: `ws://127.0.0.1:3000/lights/ws?orgId=${currentUser?.orgId}&deviceId=${process.env.REACT_APP_DEVICE_ID}`,
     onRecv: (m) => console.log(m),
-    orgId: new Types.ObjectId(currentUser?.orgId),
   });
 
   return (

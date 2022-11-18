@@ -42,8 +42,7 @@ export type Info = {
 export type Message = {
   state?: State | number;
   type: MessageType | number;
-  senderID: number;
-  orgId: Types.ObjectId;
+  senderID: Types.ObjectId;
   _id: Types.ObjectId;
 };
 
@@ -53,9 +52,8 @@ export type InfoMessage = Message & {
 
 export type WebSocket = WS & {
   path: Nullable<string>;
-  orgId: Nullable<string>;
-  deviceId: Nullable<string>;
-  info?: Nullable<Info>;
+  deviceId: Nullable<Types.ObjectId>;
+  orgId: Nullable<Types.ObjectId>;
 };
 
 export type Request = Req & {

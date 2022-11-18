@@ -47,7 +47,6 @@ void setup()
       AF1JsonDoc body;
       body["type"] = TYPE_CHANGE_STATE;
       body["state"] = STATE_OTA;
-      body["orgId"] = ORG_ID;
       AF1::httpPost(REMOTE_URL, body); });
 
 #ifdef ARDUINO_M5Stick_C
@@ -58,7 +57,7 @@ void setup()
 #endif
 
   AF1::setInitialState(INITIAL_STATE);
-  AF1::setDefaultWSClientInfo({SERVER_IP, String(LIGHTS_WS_PATH) + "?orgId=" + String(ORG_ID) + "&deviceId=" + String(JS_ID), SERVER_PORT, ""});
+  AF1::setDefaultWSClientInfo({SERVER_IP, String(LIGHTS_WS_PATH) + "?deviceId=" + JS_ID, SERVER_PORT, ""});
 
 #ifdef VS1053_CS_PIN
   AF1::registerStringHandler("audiostop", [](SHArg a)

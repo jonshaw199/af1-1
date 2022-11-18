@@ -44,12 +44,10 @@ export function useWebsocket({
 
 export function useAF1Websocket({
   url,
-  orgId,
   onOpen = () => null,
   onRecv = () => null,
 }: {
   url: string;
-  orgId: Types.ObjectId;
   onOpen?: () => void;
   onRecv?: (msg: Message) => void;
 }) {
@@ -57,16 +55,15 @@ export function useAF1Websocket({
 
   const onOpenInternal = useCallback(() => {
     const m: Omit<InfoMessage, "_id"> = {
-      senderID: Number(process.env.REACT_APP_DEVICE_ID),
+      senderID: new Types.ObjectId(process.env.REACT_APP_DEVICE_ID),
       type: MessageType.TYPE_INFO,
       info: {
         webClient: true,
       },
-      orgId: new Types.ObjectId(orgId),
     };
     ws.current?.send(m);
     onOpen();
-  }, [orgId, onOpen]);
+  }, [onOpen]);
 
   ws.current = useWebsocket({ url, onOpen: onOpenInternal, onRecv });
 
