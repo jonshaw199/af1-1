@@ -153,6 +153,7 @@ void Twinklefox::setup()
 
 void Twinklefox::preStateChange(int s)
 {
+  Pattern::preStateChange(s);
   delete[] leds;
 }
 

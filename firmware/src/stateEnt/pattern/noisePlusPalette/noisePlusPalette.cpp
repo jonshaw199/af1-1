@@ -103,6 +103,7 @@ void NoisePlusPalette::setup()
 }
 
 void NoisePlusPalette::preStateChange(int s) {
+  Pattern::preStateChange(s);
   delete[] leds;
   delete[] noise;
 }

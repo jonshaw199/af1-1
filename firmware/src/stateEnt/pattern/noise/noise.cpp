@@ -55,6 +55,7 @@ void Noise::setup()
 }
 
 void Noise::preStateChange(int s) {
+  Pattern::preStateChange(s);
   delete[] leds;
 }
 
