@@ -7,7 +7,7 @@
 
 class Twinklefox : public Pattern
 {
-  static void drawTwinkles(CRGBSet &leds);
+  static void drawTwinkles(CRGB *leds);
   static CRGB computeOneTwinkle(uint32_t ms, uint8_t salt);
   static uint8_t attackDecayWave8(uint8_t i);
   static void coolLikeIncandescent(CRGB &c, uint8_t phase);
@@ -15,6 +15,7 @@ class Twinklefox : public Pattern
 
 public:
   void setup();
+  void preStateChange(int s);
 };
 
 #endif

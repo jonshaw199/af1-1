@@ -19,6 +19,7 @@ class NoisePlusPalette : public Pattern
 
 public:
   void setup();
+  void preStateChange(int s);
 };
 
 #endif

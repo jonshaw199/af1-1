@@ -2,7 +2,7 @@
 
 namespace noise
 {
-  CRGB leds[CNT];
+  CRGB *leds;
   CRGBPalette16 currentPalette;
   TBlendType currentBlending;
   CRGBPalette16 targetPalette;
@@ -16,6 +16,8 @@ using namespace noise;
 void Noise::setup()
 {
   Pattern::setup();
+
+  leds = new CRGB[CNT];
 
 #if CNT
 #if CNT_A
@@ -50,6 +52,10 @@ void Noise::setup()
       [](ECBArg a)
       { setTargetPalette(); },
       EVENT_TYPE_TEMP, 5000));
+}
+
+void Noise::preStateChange(int s) {
+  delete[] leds;
 }
 
 void Noise::fillNoise8()

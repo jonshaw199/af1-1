@@ -103,7 +103,7 @@ namespace Twinkle
 namespace Twinkle
 {
 
-  CRGBArray<CNT> leds;
+  CRGB *leds;
   CRGBPalette16 gCurrentPalette;
   CRGBPalette16 gTargetPalette;
 
@@ -120,6 +120,9 @@ using namespace Twinkle;
 void Twinklefox::setup()
 {
   Pattern::setup();
+
+  leds = new CRGB[CNT];
+
 #if CNT
 #if CNT_A
   FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(leds, CNT);
@@ -148,12 +151,17 @@ void Twinklefox::setup()
       EVENT_TYPE_TEMP, 1));
 }
 
+void Twinklefox::preStateChange(int s)
+{
+  delete[] leds;
+}
+
 //  This function loops over each pixel, calculates the
 //  adjusted 'clock' that this pixel should use, and calls
 //  "CalculateOneTwinkle" on each pixel.  It then displays
 //  either the twinkle color of the background color,
 //  whichever is brighter.
-void Twinklefox::drawTwinkles(CRGBSet &L)
+void Twinklefox::drawTwinkles(CRGB *L)
 {
   // "PRNG16" is the pseudorandom number generator
   // It MUST be reset to the same starting value each time
@@ -193,7 +201,7 @@ void Twinklefox::drawTwinkles(CRGBSet &L)
 
   uint8_t backgroundBrightness = bg.getAverageLight();
 
-  for (CRGB &pixel : L)
+  for (int i = 0; i < CNT; i++)
   {
     PRNG16 = (uint16_t)(PRNG16 * 2053) + 1384; // next 'random' number
     uint16_t myclockoffset16 = PRNG16;         // use that number as clock offset
@@ -214,19 +222,19 @@ void Twinklefox::drawTwinkles(CRGBSet &L)
     {
       // If the new pixel is significantly brighter than the background color,
       // use the new color.
-      pixel = c;
+      leds[i] = c;
     }
     else if (deltabright > 0)
     {
       // If the new pixel is just slightly brighter than the background color,
       // mix a blend of the new color and the background color
-      pixel = blend(bg, c, deltabright * 8);
+      leds[i] = blend(bg, c, deltabright * 8);
     }
     else
     {
       // if the new pixel is not at all brighter than the background color,
       // just use the background color.
-      pixel = bg;
+      leds[i] = bg;
     }
   }
 }

@@ -45,7 +45,7 @@ const bool kMatrixSerpentineLayout = true;
 #define MAX_DIMENSION ((kMatrixWidth > kMatrixHeight) ? kMatrixWidth : kMatrixHeight)
 
 // The leds
-CRGB leds[kMatrixWidth * kMatrixHeight];
+CRGB *leds;
 
 // The 16 bit version of our coordinates
 static uint16_t x;
@@ -65,7 +65,7 @@ uint16_t speed = 20; // speed is set dynamically once we've started up
 uint16_t scale = 30; // scale is set dynamically once we've started up
 
 // This is the array that we keep our computed noise values in
-uint8_t noise[MAX_DIMENSION][MAX_DIMENSION];
+uint8_t **noise;
 
 CRGBPalette16 currentPalette(halloween_gp);
 uint8_t colorLoop = 1;
@@ -73,6 +73,10 @@ uint8_t colorLoop = 1;
 void NoisePlusPalette::setup()
 {
   Pattern::setup();
+
+  leds = new CRGB[NUM_LEDS];
+  noise = new uint8_t*[MAX_DIMENSION];
+
 #if CNT
 #if CNT_A
   FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(leds, CNT);
@@ -96,6 +100,11 @@ void NoisePlusPalette::setup()
       "NoisePlusPalette_Loop", [](ECBArg a)
       { plebLoop(); },
       EVENT_TYPE_TEMP, 15));
+}
+
+void NoisePlusPalette::preStateChange(int s) {
+  delete[] leds;
+  delete[] noise;
 }
 
 // Fill the x/y array of 8-bit noise values using the inoise8 function.

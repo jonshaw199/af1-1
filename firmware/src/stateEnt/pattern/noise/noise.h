@@ -12,6 +12,7 @@ class Noise : public Pattern
 
 public:
   void setup();
+  void preStateChange(int s);
 };
 
 #endif
