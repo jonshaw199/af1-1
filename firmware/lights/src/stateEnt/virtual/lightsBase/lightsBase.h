@@ -14,7 +14,6 @@ public:
   void loop();
   bool doScanForPeersESPNow();
   void onConnectWSServer();
-  void onConnectWSServerFailed();
   void onConnectWifiFailed();
   msg_handler getInboxHandler();
 };
