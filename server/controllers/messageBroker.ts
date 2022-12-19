@@ -18,8 +18,12 @@ export async function handleWS(w: WS, req: Request, next) {
 
   ws.on("message", (m) => {
     process.stdout.write("<");
-    const packet = JSON.parse(m.toString());
-    MessageBroker.handlePacket({ packet, orgId: ws.orgId });
+    try {
+      const packet = JSON.parse(m.toString());
+      MessageBroker.handlePacket({ packet, orgId: ws.orgId });
+    } catch (e) {
+      console.log(`Unable to parse JSON: ${m} (${e})`);
+    }
   });
 
   ws.on("error", (err) => {
